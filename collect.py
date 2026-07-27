@@ -1,7 +1,7 @@
 import duckdb
 import pandas as pd 
-url_StockEtablissement="https://static.data.gouv.fr/resources/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/20260701-093629/stock-stocketablissement-parquet.parquet"
-url_Historique="https://static.data.gouv.fr/resources/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/20260701-093717/stock-stocketablissementhistorique-parquet.parquet"
+
+
 def collect(url_StockEtablissement,url_Historique,departement):
      con = duckdb.connect()
      con.execute("INSTALL httpfs; LOAD httpfs;")
