@@ -8,10 +8,11 @@ def collect(url_StockEtablissement,url_Historique,departement):
      resultat1=con.sql(f"""
     SELECT siret, 
            codeCommuneEtablissement as code_commune,
-                       trancheEffectifsEtablissement as tranche_effectifs,
-                      libelleCommuneEtablissement as libelle_commune,
-                      activitePrincipaleEtablissement as code_ape,
-                      nomenclatureActivitePrincipaleEtablissement as nomenclature_ape
+                    trancheEffectifsEtablissement as tranche_effectifs,
+                    dateCreationEtablissement,
+                    libelleCommuneEtablissement as libelle_commune,
+                    activitePrincipaleEtablissement as code_ape,
+                    nomenclatureActivitePrincipaleEtablissement as nomenclature_ape
              FROM read_parquet('{url_StockEtablissement}')
                       WHERE substr(codeCommuneEtablissement, 1, 2) = '{departement}'   
                       AND statutDiffusionEtablissement = 'O'              
