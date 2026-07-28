@@ -25,3 +25,10 @@ def collect(con, url_StockEtablissement, url_Historique, departement):
       
 """) 
      return (resultat1, resultat2)
+
+
+
+
+
+
+
