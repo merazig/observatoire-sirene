@@ -8,17 +8,18 @@ CREATE TABLE IF NOT EXISTS dim_activite(
     code_ape TEXT PRIMARY KEY,
     nomenclature TEXT NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS dim_date(
     date_id DATE PRIMARY KEY,
     annee INTEGER NOT NULL,
     trimestre INTEGER NOT NULL,
     mois INTEGER NOT NULL
 );
+
 CREATE TABLE IF NOT EXISTS dim_tranche_effectifs(
     code_tranche TEXT PRIMARY KEY,
     libelle TEXT NOT NULL
 );
-
 
 CREATE TABLE IF NOT EXISTS fait_etablissement_version (
     siret         TEXT        NOT NULL,
