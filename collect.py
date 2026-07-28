@@ -2,8 +2,7 @@ import duckdb
 import pandas as pd 
 
 
-def collect(url_StockEtablissement,url_Historique,departement):
-     con = duckdb.connect()
+def collect(con, url_StockEtablissement, url_Historique, departement):
      con.execute("INSTALL httpfs; LOAD httpfs;")
      resultat1=con.sql(f"""
     SELECT siret, 
