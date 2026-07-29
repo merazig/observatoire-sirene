@@ -24,6 +24,11 @@ def main():
     print(bornes.df())
     print("\n--- Dates aberrantes ---")
     print(aberrations.df())
-    
+
+
+    resume, = quality.check_tranche_nn(con, stock)
+    print("\n--- Résumé des tranches d'effectifs ---")
+    print(resume.df())
+
 if __name__== "__main__":
     main()

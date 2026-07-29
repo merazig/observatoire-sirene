@@ -20,3 +20,18 @@ def check_dates_aberrantes(con, historique):
         FROM historique
     """)
     return (bornes, aberrations)
+
+
+def check_tranche_nn(con, stock):
+    con.register("stock", stock)
+    resume = con.sql("""
+        SELECT
+            COUNT(*)                                              AS total,
+            COUNT(*) FILTER (WHERE tranche_effectifs = 'NN')      AS nb_nn,
+            COUNT(*) FILTER (WHERE tranche_effectifs IS NULL)     AS nb_null,
+            ROUND(100.0 * COUNT(*) FILTER (WHERE tranche_effectifs = 'NN')
+                  / COUNT(*), 2)                                  AS pct_nn
+        FROM stock
+    """)
+
+    return resume
