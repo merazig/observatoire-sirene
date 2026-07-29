@@ -2,27 +2,29 @@ import duckdb
 import pandas as pd
 import pathlib 
 import psycopg2
+from psycopg2.extras import execute_values
 
 import os
 from dotenv import load_dotenv
 
 load_dotenv()
 
-DATABASE_URL = os.environ.get("DATABASE_URL", "dbname=observatoire_sirene")
+DATABASE_URL = os.environ.get("DATABASE_URL", "dbname=observatoire-sirene")
 SCHEMA = pathlib.Path(__file__).resolve().parent / "schema.sql"
 
 def connect():
-    return psycopg2.connect(DATABASE_URL)
+    return psycopg2.connect("postgresql://postgres:11223355@localhost:5432/observatoire-sirene")
 
 
 def create_schema(cur):
     cur.execute(SCHEMA.read_text())
     
-def load_commune(cur):
-    rows = duckdb.sql("""
+def load_commune(cur, dep):
+    rows = duckdb.sql(f"""
                     SELECT insee_code, name, code_departement
                     FROM 'data/commune.parquet'
-               """).fetchall()
+                    WHERE code_departement = '{dep}'
+            """).fetchall()
     sql = """
             INSERT INTO dim_commune (
                 code_commune, libelle_commune, code_departement
@@ -31,9 +33,40 @@ def load_commune(cur):
             ON CONFLICT DO NOTHING
         """
         
-    cur.execute_values(
+    execute_values(
+        cur,
         sql,
         rows,
         page_size=10000
     )
     
+def load_commune_raw(cur, duckdb_table):
+    rows = (
+        duckdb_table
+        .project("""
+            code_commune,
+            libelle_commune,
+            SUBSTRING(code_commune,1,2) AS code_departement
+        """)
+        .distinct()
+        .fetchall()
+    )
+    sql = """
+            INSERT INTO dim_commune (
+                code_commune, libelle_commune, code_departement
+            )
+            VALUES %s
+            ON CONFLICT DO NOTHING
+        """
+            
+    execute_values(
+            cur,
+            sql,
+            rows,
+            page_size=10000
+        )
+
+def count_rows(cur, table, dept):
+
+    cur.execute(f"SELECT count(*) FROM {table} WHERE code_departement LIKE %s", (dept + "%",))
+    return cur.fetchone()[0]

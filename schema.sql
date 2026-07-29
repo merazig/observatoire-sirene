@@ -1,7 +1,7 @@
 CREATE TABLE IF NOT EXISTS dim_commune (
     code_commune VARCHAR(5) PRIMARY KEY,
     libelle_commune TEXT NOT NULL,
-    code_departement TEXT NOT NULL,
+    code_departement TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS dim_activite(

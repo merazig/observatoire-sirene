@@ -14,7 +14,7 @@ def collect(con, url_StockEtablissement, url_Historique, departement):
                     nomenclatureActivitePrincipaleEtablissement as nomenclature_ape
              FROM read_parquet('{url_StockEtablissement}')
                       WHERE substr(codeCommuneEtablissement, 1, 2) = '{departement}'   
-                      AND statutDiffusionEtablissement = 'O'              
+                      AND statutDiffusionEtablissement = 'O'   
         """)
      
      resultat2=con.sql(f"""
@@ -22,6 +22,5 @@ def collect(con, url_StockEtablissement, url_Historique, departement):
           FROM read_parquet('{url_Historique}') ss
           
          WHERE ss.siret IN (SELECT siret FROM resultat1)
-      
-""") 
+     """) 
      return (resultat1, resultat2)
