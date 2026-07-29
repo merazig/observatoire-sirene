@@ -29,6 +29,6 @@ CREATE TABLE IF NOT EXISTS fait_etablissement_version (
     code_commune  TEXT        REFERENCES dim_commune(code_commune),
     code_ape      TEXT        REFERENCES dim_activite(code_ape),
     code_tranche  TEXT        REFERENCES dim_tranche_effectifs(code_tranche),
-    etat          TEXT        NOT NULL,  
+    etat          TEXT        NULL,  
     PRIMARY KEY (siret, valid_from)
 );
