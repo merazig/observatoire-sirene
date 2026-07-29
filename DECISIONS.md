@@ -23,7 +23,7 @@ Le brief impose que seuls `(code_ape, etat)` déclenchent une nouvelle version.
 - La dénomination n'est **pas** suivie.
 
 ## 4. Gestion des dates aberrantes
-- **Fourchette prise en consideration** : `['1900-01-01', '2026-O7-31']`.(is_current)
+- **Fourchette prise en consideration** : `['1900-01-01', '2026-O7-31']`.(current_date)
 - Les périodes hors fourchette sont **conservées dans l'entrepôt** mais **exclues des analyses temporelles**.
 - Justification : éviter les dates comme l'an 1 ou 7490 qui corrompent les agrégations par an.
 
