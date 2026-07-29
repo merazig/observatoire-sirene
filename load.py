@@ -3,6 +3,7 @@ import pandas as pd
 import pathlib 
 import psycopg2
 from psycopg2.extras import execute_values
+import clean
 
 import os
 from dotenv import load_dotenv
@@ -13,7 +14,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "dbname=observatoire-sirene")
 SCHEMA = pathlib.Path(__file__).resolve().parent / "schema.sql"
 
 def connect():
-    return psycopg2.connect("DATABASE_URL")
+    return psycopg2.connect(DATABASE_URL)
 
 
 def create_schema(cur):
@@ -70,3 +71,32 @@ def count_rows(cur, table, colone, condition_):
 
     cur.execute(f"SELECT count(*) FROM {table} WHERE {colone} LIKE %s", (condition_ + "%",))
     return cur.fetchone()[0]
+
+def load_date(cur, duckdb_table):
+    rows = (
+        duckdb_table
+        .project("""
+            dateDebut
+        """)
+        .distinct()
+        .fetchall()
+    )
+    sql = """
+            INSERT INTO dim_date (
+                date_id, annee, trimestre, mois
+            )
+            VALUES %s
+            ON CONFLICT DO NOTHING
+        """
+    rows_dates = []
+    for row in rows:
+        date_row = clean.clean_date(row[0])
+        if len(date_row) == 4:
+            rows_dates.append(date_row)
+    
+    execute_values(
+            cur,
+            sql,
+            rows_dates,
+            page_size=10000
+        )

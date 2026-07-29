@@ -11,8 +11,8 @@ con = duckdb.connect()
 DEPT = (sys.argv[1] if len(sys.argv) > 1 else "69").upper().zfill(2)
 
 
-url_StockEtablissement="https://static.data.gouv.fr/resources/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/20260701-093629/stock-stocketablissement-parquet.parquet"
-url_Historique="https://static.data.gouv.fr/resources/base-sirene-des-entreprises-et-de-leurs-etablissements-siren-siret/20260701-093717/stock-stocketablissementhistorique-parquet.parquet"
+url_StockEtablissement="local_data/stock-stocketablissement-parquet.parquet"
+url_Historique="local_data/stock-stocketablissementhistorique-parquet.parquet"
 
 
 def main():
@@ -36,11 +36,15 @@ def main():
     print(f"siret_fin: {len(historique)}")
     
     load.load_commune_raw(cur, stock)
+    
+    load.load_date(cur, historique)
     conn.commit()
     
     count = load.count_rows(cur, "dim_commune", "code_departement", DEPT)
     print(f"Communes: {count}")
-    
+    cur.execute("SELECT COUNT(*) FROM dim_date")
+    count = cur.fetchone()[0]
+    print(f"Dates totale: {count}")
     conn.close()
     
     print("temps:", round((time.time() - time_start),3))
