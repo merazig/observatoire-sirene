@@ -1,0 +1,1 @@
+{"_invocation_id": "c2518d03-a4cf-4297-90c6-8f9c8ca42537", "linked": {"0": {"name": "source.observatoire.sirene.periodes", "type": "source", "succ": [2]}, "1": {"name": "model.observatoire.dim_commune", "type": "model"}, "2": {"name": "model.observatoire.stg_periodes", "type": "model", "succ": [1]}}}
