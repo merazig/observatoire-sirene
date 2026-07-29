@@ -38,7 +38,7 @@ def main():
     load.load_commune_raw(cur, stock)
     conn.commit()
     
-    count = load.count_rows(cur, "dim_commune", DEPT)
+    count = load.count_rows(cur, "dim_commune", "code_departement", DEPT)
     print(f"Communes: {count}")
     
     conn.close()

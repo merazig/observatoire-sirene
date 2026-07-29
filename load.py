@@ -66,7 +66,7 @@ def load_commune_raw(cur, duckdb_table):
             page_size=10000
         )
 
-def count_rows(cur, table, dept):
+def count_rows(cur, table, colone, condition_):
 
-    cur.execute(f"SELECT count(*) FROM {table} WHERE code_departement LIKE %s", (dept + "%",))
+    cur.execute(f"SELECT count(*) FROM {table} WHERE {colone} LIKE %s", (condition_ + "%",))
     return cur.fetchone()[0]
