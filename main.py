@@ -14,8 +14,8 @@ DEPT = (sys.argv[1] if len(sys.argv) > 1 else "69").upper().zfill(2)
 #url_StockEtablissement='C:/Users/PC/Downloads/stock-stocketablissement-parquet.parquet'
 #url_Historique='C:/Users/PC/Downloads/stock-stocketablissementhistorique-parquet.parquet'
 
-url_StockEtablissement="local_data/stock-stocketablissement-parquet.parquet"
-url_Historique="local_data/stock-stocketablissementhistorique-parquet.parquet"
+url_StockEtablissement="url/stock-stocketablissement-parquet.parquet"
+url_Historique="url parquet/stock-stocketablissementhistorique-parquet.parquet"
 
 date_min = "1900-01-01"
 date_max = str(datetime.today())
