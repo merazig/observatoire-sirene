@@ -5,3 +5,4 @@ __pycache__/
 local_data
 data/fait_etablissement*.parquet
 data/rhone_periodes.parquet
+url parquet
