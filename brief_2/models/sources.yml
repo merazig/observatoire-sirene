@@ -1,0 +1,7 @@
+version: 2
+sources:
+  - name: sirene
+    tables:
+      - name: periodes
+        meta:
+          external_location: "data/periodes_sample.parquet"

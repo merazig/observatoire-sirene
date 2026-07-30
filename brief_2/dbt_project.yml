@@ -1,0 +1,6 @@
+name: observatoire
+version: "1.0"
+profile: observatoire
+model-paths: ["models"]
+seed-paths: ["seeds"]
+snapshot-paths: ["snapshots"]

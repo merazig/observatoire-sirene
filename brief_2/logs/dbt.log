@@ -1,0 +1,211 @@
+[0m15:40:25.085217 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'start', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D71DD5C980>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D71B658CD0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D7205BF9D0>]}
+
+
+============================== 15:40:25.095298 | c2518d03-a4cf-4297-90c6-8f9c8ca42537 ==============================
+[0m15:40:25.095298 [info ] [MainThread]: Running with dbt=1.12.0
+[0m15:40:25.096918 [debug] [MainThread]: running dbt with arguments {'maximum_seed_size_mib': '1', 'no_print': 'None', 'static_parser': 'True', 'warn_error_options': 'WarnErrorOptionsV2(error=[], warn=[], silence=[])', 'version_check': 'True', 'target_path': 'None', 'printer_width': '80', 'write_json': 'True', 'introspect': 'True', 'log_cache_events': 'False', 'empty': 'False', 'cache_selected_only': 'False', 'fail_fast': 'False', 'debug': 'False', 'log_format': 'default', 'profiles_dir': 'C:\\Users\\Utilisateur\\Documents\\observatoire-sirene\\brief_2', 'send_anonymous_usage_stats': 'True', 'quiet': 'False', 'warn_error': 'None', 'partial_parse': 'True', 'use_colors': 'True', 'hints_enabled': 'True', 'indirect_selection': 'eager', 'use_experimental_parser': 'False', 'invocation_command': 'dbt run', 'log_path': 'C:\\Users\\Utilisateur\\Documents\\observatoire-sirene\\brief_2\\logs'}
+[0m15:40:25.563098 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'project_id', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D720568B00>]}
+[0m15:40:25.647575 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'adapter_info', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D71BDEAF10>]}
+[0m15:40:25.650895 [info ] [MainThread]: Registered adapter: duckdb=1.10.1
+[0m15:40:25.968979 [debug] [MainThread]: checksum: 05031869df5529912c717ddc640d18734226a9ebfa16dd478252ef09b12b7100, vars: {}, profile: observatoire, target: dev, version: 1.12.0
+[0m15:40:25.970535 [info ] [MainThread]: Unable to do partial parsing because saved manifest not found. Starting full parse.
+[0m15:40:25.971217 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'partial_parser', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D720B0C150>]}
+[0m15:40:30.759336 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'load_project', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D72231D310>]}
+[0m15:40:30.870465 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\manifest.json
+[0m15:40:30.874958 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\semantic_manifest.json
+[0m15:40:30.904467 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\osi_document.json
+[0m15:40:30.942438 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'resource_counts', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D722811FD0>]}
+[0m15:40:30.943031 [info ] [MainThread]: Found 2 models, 1 source, 486 macros
+[0m15:40:30.943621 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D722718C80>]}
+[0m15:40:30.946036 [info ] [MainThread]: 
+[0m15:40:30.946662 [info ] [MainThread]: Concurrency: 1 threads (target='dev')
+[0m15:40:30.947154 [info ] [MainThread]: 
+[0m15:40:30.947976 [debug] [MainThread]: Acquiring new duckdb connection 'master'
+[0m15:40:30.953743 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_entrepot'
+[0m15:40:36.080632 [debug] [ThreadPool]: Using duckdb connection "list_entrepot"
+[0m15:40:36.081690 [debug] [ThreadPool]: On list_entrepot: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "connection_name": "list_entrepot"} */
+
+    
+    select schema_name
+    from system.information_schema.schemata
+    
+    where lower(catalog_name) = '"entrepot"'
+    
+  
+  
+[0m15:40:36.082561 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:40:36.123486 [debug] [ThreadPool]: SQL status: OK in 0.041 seconds
+[0m15:40:36.127045 [debug] [ThreadPool]: On list_entrepot: Close
+[0m15:40:36.128849 [debug] [ThreadPool]: Re-using an available connection from the pool (formerly list_entrepot, now create_entrepot_main)
+[0m15:40:36.129887 [debug] [ThreadPool]: Creating schema "database: "entrepot"
+schema: "main"
+"
+[0m15:40:36.139206 [debug] [ThreadPool]: Using duckdb connection "create_entrepot_main"
+[0m15:40:36.139704 [debug] [ThreadPool]: On create_entrepot_main: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "connection_name": "create_entrepot_main"} */
+
+    
+        select type from duckdb_databases()
+        where lower(database_name)='entrepot'
+        and type='sqlite'
+    
+  
+[0m15:40:36.140164 [debug] [ThreadPool]: Opening a new connection, currently in state closed
+[0m15:40:36.142032 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m15:40:36.143475 [debug] [ThreadPool]: Using duckdb connection "create_entrepot_main"
+[0m15:40:36.143885 [debug] [ThreadPool]: On create_entrepot_main: BEGIN
+[0m15:40:36.144681 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m15:40:36.145205 [debug] [ThreadPool]: Using duckdb connection "create_entrepot_main"
+[0m15:40:36.145706 [debug] [ThreadPool]: On create_entrepot_main: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "connection_name": "create_entrepot_main"} */
+
+    
+    
+        create schema if not exists "entrepot"."main"
+    
+[0m15:40:36.147942 [debug] [ThreadPool]: SQL status: OK in 0.002 seconds
+[0m15:40:36.149599 [debug] [ThreadPool]: On create_entrepot_main: COMMIT
+[0m15:40:36.150207 [debug] [ThreadPool]: Using duckdb connection "create_entrepot_main"
+[0m15:40:36.150801 [debug] [ThreadPool]: On create_entrepot_main: COMMIT
+[0m15:40:36.151876 [debug] [ThreadPool]: SQL status: OK in 0.000 seconds
+[0m15:40:36.152519 [debug] [ThreadPool]: On create_entrepot_main: Close
+[0m15:40:36.155196 [debug] [ThreadPool]: Acquiring new duckdb connection 'list_entrepot_main'
+[0m15:40:36.166894 [debug] [ThreadPool]: Using duckdb connection "list_entrepot_main"
+[0m15:40:36.167758 [debug] [ThreadPool]: On list_entrepot_main: BEGIN
+[0m15:40:36.168560 [debug] [ThreadPool]: Opening a new connection, currently in state init
+[0m15:40:36.170061 [debug] [ThreadPool]: SQL status: OK in 0.001 seconds
+[0m15:40:36.170917 [debug] [ThreadPool]: Using duckdb connection "list_entrepot_main"
+[0m15:40:36.171795 [debug] [ThreadPool]: On list_entrepot_main: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "connection_name": "list_entrepot_main"} */
+select
+      'entrepot' as database,
+      table_name as name,
+      table_schema as schema,
+      CASE table_type
+        WHEN 'BASE TABLE' THEN 'table'
+        WHEN 'VIEW' THEN 'view'
+        WHEN 'LOCAL TEMPORARY' THEN 'table'
+        END as type
+    from system.information_schema.tables
+    where lower(table_schema) = 'main'
+    and lower(table_catalog) = 'entrepot'
+  
+[0m15:40:36.186045 [debug] [ThreadPool]: SQL status: OK in 0.013 seconds
+[0m15:40:36.189038 [debug] [ThreadPool]: On list_entrepot_main: ROLLBACK
+[0m15:40:36.191707 [debug] [ThreadPool]: Failed to rollback 'list_entrepot_main'
+[0m15:40:36.192669 [debug] [ThreadPool]: On list_entrepot_main: Close
+[0m15:40:36.194482 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'runnable_timing', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D722746690>]}
+[0m15:40:36.195617 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:40:36.196474 [debug] [MainThread]: On master: BEGIN
+[0m15:40:36.197267 [debug] [MainThread]: Opening a new connection, currently in state init
+[0m15:40:36.198755 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m15:40:36.199614 [debug] [MainThread]: On master: COMMIT
+[0m15:40:36.200440 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:40:36.201224 [debug] [MainThread]: On master: COMMIT
+[0m15:40:36.202426 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m15:40:36.203270 [debug] [MainThread]: On master: Close
+[0m15:40:36.258646 [debug] [Thread-1 (]: Began running node model.observatoire.stg_periodes
+[0m15:40:36.259485 [info ] [Thread-1 (]: 1 of 2 START sql view model main.stg_periodes .................................. [RUN]
+[0m15:40:36.260432 [debug] [Thread-1 (]: Acquiring new duckdb connection 'model.observatoire.stg_periodes'
+[0m15:40:36.260896 [debug] [Thread-1 (]: Began compiling node model.observatoire.stg_periodes
+[0m15:40:36.268632 [debug] [Thread-1 (]: Writing injected SQL for node "model.observatoire.stg_periodes"
+[0m15:40:36.271910 [debug] [Thread-1 (]: Began executing node model.observatoire.stg_periodes
+[0m15:40:36.311230 [debug] [Thread-1 (]: Writing runtime sql for node "model.observatoire.stg_periodes"
+[0m15:40:36.314732 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.stg_periodes"
+[0m15:40:36.315263 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: BEGIN
+[0m15:40:36.315687 [debug] [Thread-1 (]: Opening a new connection, currently in state init
+[0m15:40:36.316810 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:40:36.317219 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.stg_periodes"
+[0m15:40:36.317624 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "node_id": "model.observatoire.stg_periodes"} */
+
+  
+  create view "entrepot"."main"."stg_periodes__dbt_tmp" as (
+    select siret, dateDebut as date_debut, dateFin as date_fin,
+       etat, code_ape, code_commune, libelle_commune, code_tranche
+from 'data/periodes_sample.parquet'
+  );
+
+[0m15:40:36.321266 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m15:40:36.329231 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.stg_periodes"
+[0m15:40:36.329832 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "node_id": "model.observatoire.stg_periodes"} */
+alter view "entrepot"."main"."stg_periodes__dbt_tmp" rename to "stg_periodes"
+[0m15:40:36.331796 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:40:36.357056 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: COMMIT
+[0m15:40:36.357913 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.stg_periodes"
+[0m15:40:36.358808 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: COMMIT
+[0m15:40:36.365281 [debug] [Thread-1 (]: SQL status: OK in 0.006 seconds
+[0m15:40:36.372346 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.stg_periodes"
+[0m15:40:36.372851 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "node_id": "model.observatoire.stg_periodes"} */
+
+      drop view if exists "entrepot"."main"."stg_periodes__dbt_backup" cascade
+    
+[0m15:40:36.374401 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:40:36.378363 [debug] [Thread-1 (]: On model.observatoire.stg_periodes: Close
+[0m15:40:36.382279 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D71E1F2620>]}
+[0m15:40:36.383525 [info ] [Thread-1 (]: 1 of 2 OK created sql view model main.stg_periodes ............................. [[32mOK[0m in 0.12s]
+[0m15:40:36.384875 [debug] [Thread-1 (]: Finished running node model.observatoire.stg_periodes
+[0m15:40:36.386294 [debug] [Thread-1 (]: Began running node model.observatoire.dim_commune
+[0m15:40:36.387596 [info ] [Thread-1 (]: 2 of 2 START sql view model main.dim_commune ................................... [RUN]
+[0m15:40:36.389147 [debug] [Thread-1 (]: Re-using an available connection from the pool (formerly model.observatoire.stg_periodes, now model.observatoire.dim_commune)
+[0m15:40:36.390069 [debug] [Thread-1 (]: Began compiling node model.observatoire.dim_commune
+[0m15:40:36.394173 [debug] [Thread-1 (]: Writing injected SQL for node "model.observatoire.dim_commune"
+[0m15:40:36.397344 [debug] [Thread-1 (]: Began executing node model.observatoire.dim_commune
+[0m15:40:36.404076 [debug] [Thread-1 (]: Writing runtime sql for node "model.observatoire.dim_commune"
+[0m15:40:36.407638 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.dim_commune"
+[0m15:40:36.408770 [debug] [Thread-1 (]: On model.observatoire.dim_commune: BEGIN
+[0m15:40:36.409745 [debug] [Thread-1 (]: Opening a new connection, currently in state closed
+[0m15:40:36.411434 [debug] [Thread-1 (]: SQL status: OK in 0.002 seconds
+[0m15:40:36.412454 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.dim_commune"
+[0m15:40:36.413438 [debug] [Thread-1 (]: On model.observatoire.dim_commune: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "node_id": "model.observatoire.dim_commune"} */
+
+  
+  create view "entrepot"."main"."dim_commune__dbt_tmp" as (
+    select code_commune, any_value(libelle_commune) as libelle_commune
+from "entrepot"."main"."stg_periodes"
+group by code_commune
+  );
+
+[0m15:40:36.418812 [debug] [Thread-1 (]: SQL status: OK in 0.004 seconds
+[0m15:40:36.427385 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.dim_commune"
+[0m15:40:36.428749 [debug] [Thread-1 (]: On model.observatoire.dim_commune: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "node_id": "model.observatoire.dim_commune"} */
+alter view "entrepot"."main"."dim_commune__dbt_tmp" rename to "dim_commune"
+[0m15:40:36.430588 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:40:36.434370 [debug] [Thread-1 (]: On model.observatoire.dim_commune: COMMIT
+[0m15:40:36.435393 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.dim_commune"
+[0m15:40:36.436315 [debug] [Thread-1 (]: On model.observatoire.dim_commune: COMMIT
+[0m15:40:36.440554 [debug] [Thread-1 (]: SQL status: OK in 0.003 seconds
+[0m15:40:36.445174 [debug] [Thread-1 (]: Using duckdb connection "model.observatoire.dim_commune"
+[0m15:40:36.446181 [debug] [Thread-1 (]: On model.observatoire.dim_commune: /* {"app": "dbt", "dbt_version": "1.12.0", "profile_name": "observatoire", "target_name": "dev", "node_id": "model.observatoire.dim_commune"} */
+
+      drop view if exists "entrepot"."main"."dim_commune__dbt_backup" cascade
+    
+[0m15:40:36.447909 [debug] [Thread-1 (]: SQL status: OK in 0.001 seconds
+[0m15:40:36.451280 [debug] [Thread-1 (]: On model.observatoire.dim_commune: Close
+[0m15:40:36.452759 [debug] [Thread-1 (]: Sending event: {'category': 'dbt', 'action': 'run_model', 'label': 'c2518d03-a4cf-4297-90c6-8f9c8ca42537', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D722BD3E30>]}
+[0m15:40:36.454348 [info ] [Thread-1 (]: 2 of 2 OK created sql view model main.dim_commune .............................. [[32mOK[0m in 0.06s]
+[0m15:40:36.456324 [debug] [Thread-1 (]: Finished running node model.observatoire.dim_commune
+[0m15:40:36.459925 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:40:36.460878 [debug] [MainThread]: On master: BEGIN
+[0m15:40:36.461683 [debug] [MainThread]: Opening a new connection, currently in state closed
+[0m15:40:36.463148 [debug] [MainThread]: SQL status: OK in 0.001 seconds
+[0m15:40:36.464032 [debug] [MainThread]: On master: COMMIT
+[0m15:40:36.464900 [debug] [MainThread]: Using duckdb connection "master"
+[0m15:40:36.465706 [debug] [MainThread]: On master: COMMIT
+[0m15:40:36.467013 [debug] [MainThread]: SQL status: OK in 0.000 seconds
+[0m15:40:36.467935 [debug] [MainThread]: On master: Close
+[0m15:40:36.469052 [debug] [MainThread]: Connection 'master' was properly closed.
+[0m15:40:36.469865 [debug] [MainThread]: Connection 'create_entrepot_main' was properly closed.
+[0m15:40:36.470621 [debug] [MainThread]: Connection 'list_entrepot_main' was properly closed.
+[0m15:40:36.471499 [debug] [MainThread]: Connection 'model.observatoire.dim_commune' was properly closed.
+[0m15:40:36.472967 [info ] [MainThread]: 
+[0m15:40:36.478676 [info ] [MainThread]: Finished running 2 view models in 0 hours 0 minutes and 5.52 seconds (5.52s).
+[0m15:40:36.482114 [debug] [MainThread]: Command end result
+[0m15:40:36.548962 [debug] [MainThread]: Wrote artifact WritableManifest to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\manifest.json
+[0m15:40:36.556239 [debug] [MainThread]: Wrote artifact SemanticManifest to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\semantic_manifest.json
+[0m15:40:36.560239 [debug] [MainThread]: Wrote artifact OsiDocument to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\osi_document.json
+[0m15:40:36.569646 [debug] [MainThread]: Wrote artifact RunExecutionResult to C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\target\run_results.json
+[0m15:40:36.570055 [info ] [MainThread]: 
+[0m15:40:36.570685 [info ] [MainThread]: [32mCompleted successfully[0m
+[0m15:40:36.571327 [info ] [MainThread]: 
+[0m15:40:36.571909 [info ] [MainThread]: Done. PASS=2 WARN=0 ERROR=0 SKIP=0 NO-OP=0 REUSED=0 TOTAL=2
+[0m15:40:36.572965 [debug] [MainThread]: Command `dbt run` succeeded at 15:40:36.572805 after 11.74 seconds
+[0m15:40:36.573457 [debug] [MainThread]: Sending event: {'category': 'dbt', 'action': 'invocation', 'label': 'end', 'context': [<snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D722AC65D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D7226E61D0>, <snowplow_tracker.self_describing_json.SelfDescribingJson object at 0x000001D7205CBF50>]}
+[0m15:40:36.573932 [debug] [MainThread]: Flushing usage events
+[0m15:40:37.296260 [debug] [MainThread]: An error was encountered while trying to flush usage events
