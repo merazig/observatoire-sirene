@@ -1,0 +1,11 @@
+
+    
+    
+    truncate table "entrepot"."main"."etats_demo";
+    -- dbt seed --
+    
+          COPY "entrepot"."main"."etats_demo" FROM 'C:\Users\Utilisateur\Documents\observatoire-sirene\brief_2\seeds\etats_demo.csv' (FORMAT CSV, HEADER TRUE, DELIMITER ',')
+        
+
+;
+  

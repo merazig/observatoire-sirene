@@ -6,3 +6,4 @@ local_data
 data/fait_etablissement*.parquet
 data/rhone_periodes.parquet
 url parquet
+local_data/
