@@ -11,12 +11,15 @@
 | `codeCommuneEtablissement` | non — valeur courante seulement | `dim_commune` |
 | `libelleCommuneEtablissement` | non | `dim_commune` |
 | `trancheEffectifsEtablissement` | non — valeur courante seulement | `dim_tranche_effectifs` |
-| `activitePrincipaleEtablissement` | oui (voir historique) | non repris ici, source = historique |
-| `etatAdministratifEtablissement` | oui (voir historique) | non repris ici, source = historique |
+| `dateCreationEtablissement` | non | contrôle qualité des dates |
+| `activitePrincipaleEtablissement` | oui | `dim_activite` (référentiel des activités) |
+| `nomenclatureActivitePrincipaleEtablissement` | non | `dim_activite.nomenclature` |
 | `statutDiffusionEtablissement` | — | filtre RGPD |
 | `denominationUsuelleEtablissement` / `enseigne*` | oui | **non suivi** (hors contrat, cf. §4) |
 
 ⚠️ Point clé : `code_commune` et `code_tranche` n'existent que dans le stock, donc on ne connaît que leur valeur **actuelle** — impossible de savoir où était implanté un établissement en 2019 si son adresse a changé depuis.
+
+ℹ️ `activitePrincipaleEtablissement` est présente **dans les deux fichiers** : dans le stock elle alimente le référentiel `dim_activite`, dans l'historique elle devient un attribut daté de la table de faits (activité à un instant donné).
 
 ### StockEtablissementHistorique (~0,87 Go, 95,3 M périodes au national)
 Une ligne par établissement **et par période de validité** `[dateDebut, dateFin[`.
@@ -26,26 +29,25 @@ Une ligne par établissement **et par période de validité** `[dateDebut, dateF
 | `siret` | — | clé du fait |
 | `dateDebut` / `dateFin` | oui, par définition | `valid_from` / `valid_to` |
 | `etatAdministratifEtablissement` (A/F) | oui | attribut du fait |
-| `activitePrincipaleEtablissement` | oui | `dim_activite` (FK) |
-| `nomenclatureActivitePrincipaleEtablissement` | oui | `dim_activite.nomenclature` |
+| `activitePrincipaleEtablissement` | oui | `fait_etablissement_version.code_ape` |
 | `denominationUsuelleEtablissement` | oui | **non suivi** (le contrat ignore le nom) |
 
 ## 2. Volumétrie
 
-| Périmètre | Établissements diffusibles (estim.) | Périodes historisées (estim.) |
+| Périmètre | Établissements diffusibles | Périodes historisées |
 |---|---|---|
-| Rhône (69) | ~1,20 M | ~2,65 M |
-| Région ARA (12 dépt.) | À mesurer — ordre de grandeur ×6 à ×8 | idem |
+| Rhône (69) — **mesuré** | **1 202 304** | **2 652 621** |
+| Région ARA (12 dépt.) | à mesurer — ordre de grandeur ×6 à ×8 | idem |
 | France entière | 43,7 M (stock) | 95,3 M (historique) |
 
-À vérifier avec `collecte.py` (fonction `controle_rapide`) une fois l'accès distant validé. La projection région/France sert à anticiper le brief 2 (dbt + passage à l'échelle) : au-delà du Rhône, `pandas` en mémoire complète n'est plus une option, `duckdb` en lecture colonnes reste nécessaire.
-
+Chiffres du Rhône mesurés via `collect.py` en lecture distante duckdb + httpfs. La projection région/France sert à anticiper le brief 2 (dbt + passage à l'échelle) : au-delà du Rhône, `pandas` en mémoire complète n'est plus une option, `duckdb` en lecture colonnes reste nécessaire.
 
 ## 3. Qualité des données
 
 - **`NN`** : tranche d'effectifs non renseignée — fréquente, à ne pas confondre
   avec une vraie valeur ; à exclure ou isoler des agrégats d'emploi (Partie 4,
-  question sur la répartition par tranche).
+  question sur la répartition par tranche). *(Quantification à mesurer via
+  `quality.py::check_tranche_nn`.)*
 - **`[ND]`** : dénomination non diffusée — sans impact ici puisque le contrat ne
   suit pas la dénomination.
 - **Dates aberrantes** : mesure réelle sur l'historique du Rhône (2 652 621
@@ -58,8 +60,8 @@ Une ligne par établissement **et par période de validité** `[dateDebut, dateF
   | Date de fin dans le futur | 11 |
   | Date de fin antérieure au début | 0 |
 
-  Soit environ 102 lignes sur 2,65 M (**~0,004 %**). 
-
+  Soit environ 102 lignes sur 2,65 M (**~0,004 %**). À noter : l'aberration maximale mesurée est l'an 3035. Décision : ne pas corriger la donnée source, seulement exclure ces lignes des agrégats temporels
+  via un filtre sur une fourchette plausible (à trancher, cf. `DECISIONS.md`).
 
 ## 4. RGPD
 
@@ -71,15 +73,32 @@ Une ligne par établissement **et par période de validité** `[dateDebut, dateF
 
 ## 5. Preuve de faisabilité technique
 
-Chiffre choisi : **nombre d'établissements actifs et diffusibles du Rhône**, calculé via `duckdb` + `httpfs` en lecture distante sur les Parquet SIRENE (sans téléchargement complet, lecture en colonnes).
+Chiffre choisi : **nombre d'établissements diffusibles du Rhône**, calculé via `duckdb` + `httpfs` en lecture distante sur les Parquet SIRENE (sans téléchargement complet, lecture en colonnes).
 
 ```
-Établissements (stock, diffusibles) : [à compléter après exécution]
-  dont actifs                        : [à compléter — attendu ≈ 430 000]
-Périodes (historique, diffusibles)  : [à compléter]
+Établissements (stock, diffusibles) : 1 202 304
+  dont actifs (etat = 'A')          : à mesurer
+Périodes (historique, diffusibles)  : 2 652 621
 ```
 
-Script utilisé : `collecte.py::controle_rapide()`. Si le chiffre est proche de l'ordre de grandeur attendu (~430 000 actifs) → chaîne technique validée (accès data.gouv, httpfs, filtre RGPD, filtre périmètre). Sinon, vérifier dans l'ordre : URL du mois, nom des colonnes (peuvent changer entre publications), clause de filtre département.
+Script utilisé : `collect.py::collect()`. L'accès distant data.gouv, le chargement de httpfs, le filtre RGPD (`statutDiffusion = 'O'`) et le filtre périmètre (`substr(codeCommune,1,2) = '69'`) sont tous validés par l'exécution. En cas d'écart, vérifier dans l'ordre : URL du mois, nom des colonnes (peuvent changer entre publications), clause de filtre département.
 
+## 6. Tests de régression
+
+Une suite `pytest` (`tests.py`, 4 tests) vérifie la logique du pipeline sans dépendance réseau ni PostgreSQL : chaque test crée une petite table duckdb en mémoire avec des cas connus, applique la logique, et contrôle le résultat.
+ 
+| Test | Ce qu'il vérifie |
+|---|---|
+| `test_filtre_rgpd` | le filtre RGPD ne garde que `statut = 'O'` |
+| `test_filtre_departement` | le filtre ne garde que les communes du 69 |
+| `test_date_trop_vieille` | une date antérieure à 1900 est bien repérée |
+| `test_pas_de_doublon` | `dim_commune.code_commune` ne contient pas de doublon |
+ 
+Lancer : `pytest tests.py -v`. 
+ 
 ---
-*À compléter avec les chiffres réels avant la revue de sprint. Backlog priorisé en pièce jointe (Google Sheets).*
+*Backlog priorisé en pièce jointe (Google Sheets). 
+Chiffres du Rhône mesurés ; 
+volumétrie ARA/France et 
+comptages NN / actifs restant à mesurer.*
+ 
