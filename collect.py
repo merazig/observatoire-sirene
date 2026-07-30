@@ -1,6 +1,3 @@
-import duckdb
-import pandas as pd 
-
 
 def collect(con, url_StockEtablissement, url_Historique, departement):
      con.execute("INSTALL httpfs; LOAD httpfs;")

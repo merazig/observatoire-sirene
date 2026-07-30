@@ -1,8 +1,7 @@
 import pandas as pd
-import duckdb
-import psycopg2
-from datetime import datetime
-import collect
+from datetime import date 
+
+
 def clean_date(date_):
     date_list = str(date_).split('-')
     if len(date_list) != 3:
@@ -19,6 +18,7 @@ def clean_date(date_):
     elif mois in (10,11,12):
         trimestre = 4
     return (date_, annee, trimestre, mois)
+
 def construire_dim_tranche_effectifs():
   
     tranches = {
@@ -45,7 +45,7 @@ def construire_dim_tranche_effectifs():
         "libelle": list(tranches.values()),
     })
     return donnees
-from datetime import date 
+
 def fait_etablissement(stock,historique,DEPT):
         ds=stock.df()
         dh=historique.df()
@@ -62,7 +62,7 @@ def fait_etablissement(stock,historique,DEPT):
         ds = ds.drop(columns=['code_ape'], errors='ignore')
         fait_f=historique.merge(ds,on ='siret')
         fait_final = fait_f[
-                    [
+            [
                 'siret',
                 'dateDebut',
                 'dateFin',
@@ -71,7 +71,7 @@ def fait_etablissement(stock,historique,DEPT):
                 'code_ape',
                 'tranche_effectifs',
                 'etat'
-                ]
+            ]
         ]
         fait_final.to_parquet(f"data/fait_etablissement_version_{DEPT}.parquet")
         path = f"data/fait_etablissement_version_{DEPT}.parquet"
