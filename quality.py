@@ -1,6 +1,5 @@
 import duckdb
 
-
 def check_dates_aberrantes(con, historique):
     con.register("historique", historique)
     bornes = con.sql("""

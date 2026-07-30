@@ -13,7 +13,7 @@ DATABASE_URL = os.environ.get("DATABASE_URL", "dbname=observatoire-sirene")
 SCHEMA = pathlib.Path(__file__).resolve().parent / "schema.sql"
 
 def connect():
-    return psycopg2.connect("postgresql://postgres:11223355@localhost:5432/observatoire-sirene")
+    return psycopg2.connect("postgresql://postgres:Marseille.97@localhost:5432/observatoire-sirene")
 
 
 def create_schema(cur):
