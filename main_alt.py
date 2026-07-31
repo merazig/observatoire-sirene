@@ -4,6 +4,7 @@ import load_alt
 import sys
 import time
 import load
+import clean
 
 con = duckdb.connect()
 #con.execute("SET http_timeout=300;")  # 5 minutes
@@ -31,8 +32,12 @@ def main():
     
     print(f"======= Departement {DEPT} =======")
     stock_histoire = collect.collect_alt(con, url_StockEtablissement, url_Historique, DEPT)
-    load_alt.load_all(cur, stock_histoire, 200000)
     
+    dim_tranche_effectifs = clean.construire_dim_tranche_effectifs()
+    load.load_dim_tranche_effectifs(dim_tranche_effectifs, cur)
+    load_alt.load_all(cur, stock_histoire, 100000)
+    
+    conn.commit()
     count = load.count_rows(cur, "dim_commune", "code_departement", DEPT)
     print(f"Communes: {count}")
         
