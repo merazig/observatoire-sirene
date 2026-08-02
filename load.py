@@ -70,7 +70,7 @@ def load_commune_raw(cur, duckdb_table):
             cur,
             sql,
             rows,
-            page_size=10000
+            page_size=50000
         )
 
 def load_dim_tranche_effectifs(dim_tranche_effectifs,cur):
@@ -87,7 +87,7 @@ def load_dim_tranche_effectifs(dim_tranche_effectifs,cur):
                 cur,
                 sql,
                 rows,
-                page_size=10000
+                page_size=50000
             )
 
 def  load_dim_activite(dim_activite,cur):
@@ -104,7 +104,7 @@ def  load_dim_activite(dim_activite,cur):
         cur,
         sql,
         rows,
-        page_size=10000
+        page_size=50000
     )
 
 
@@ -149,10 +149,10 @@ def load_fait_etablissement_version(path, cur,con):
         cur,
         sql,
         rows,
-        page_size=10000
+        page_size=50000
     )
 
-    print(f"{len(rows)} lignes chargées")
+    #print(f"{len(rows)} lignes chargées")
 
 
 def count_rows(cur, table, colone, condition_):
