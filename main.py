@@ -41,7 +41,7 @@ def main():
     print("temps de collect:", round((time.perf_counter() - time_start),3))
 
     print(f"siret_stock: {len(stock)}")
-    print(f"siret_fin: {len(historique)}")
+    print(f"siret_historique: {len(historique)}")
     #dim_date=clean.creer_dim_date(date_min, date_max)
     
     time_start = time.perf_counter()

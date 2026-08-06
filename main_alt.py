@@ -35,12 +35,12 @@ def main():
     time_start = time.perf_counter()
     stock_histoire = collect.collect_alt(con, url_StockEtablissement, url_Historique, DEPT)
     print("temps de collect:", round((time.perf_counter() - time_start),3))
-    
+    print(f"siret_stock_historique: {len(stock_histoire)}")
     
     time_start = time.perf_counter()
     dim_tranche_effectifs = clean.construire_dim_tranche_effectifs()
     load.load_dim_tranche_effectifs(dim_tranche_effectifs, cur)
-    load_alt.load_all(cur, stock_histoire, 100000)
+    load_alt.load_all(cur, stock_histoire, 200000)
     print("temps de clean et load:", round((time.perf_counter() - time_start),3))
     
     count = load.count_rows(cur, "dim_commune", "code_departement", DEPT)

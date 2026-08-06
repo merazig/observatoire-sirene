@@ -32,3 +32,4 @@ CREATE TABLE IF NOT EXISTS fait_etablissement_version (
     etat          TEXT        NULL,  
     PRIMARY KEY (siret, valid_from)
 );
+

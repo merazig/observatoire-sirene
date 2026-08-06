@@ -50,22 +50,20 @@ def fait_etablissement(stock,historique,DEPT):
         ds=stock.df()
         dh=historique.df()
         dh = dh.sort_values(["siret", "dateDebut"])
-        dh=dh[((dh.dateDebut>"1900-01-01")&(dh.dateDebut<str(date.today()))) |(dh.dateDebut.isna()) ]
-        dh=dh[((dh.dateFin>"1900-01-01")&(dh.dateFin<str(date.today()))) ]                                   
+        dh=dh[((dh.dateDebut>"1900-01-01")&(dh.dateDebut<str(date.today())))]
         dh["cle"] = dh["code_ape"].fillna("?") + "|" + dh["etat"].fillna("?")
         dh["cle_prec"] = dh.groupby("siret")["cle"].shift(1) 
         fait = dh[dh["cle"] != dh["cle_prec"]].copy() 
         fait["valid_from"] = fait["dateDebut"]
         fait["valid_to"]   = fait.groupby("siret")["valid_from"].shift(-1)
         fait["is_current"] = fait["valid_to"].isna()
-        historique=fait[['siret','dateDebut','dateFin','is_current','code_ape','etat']]
-        ds = ds.drop(columns=['code_ape'], errors='ignore')
+        historique=fait[['siret','dateDebut','valid_to','is_current','code_ape','etat']]
         fait_f=historique.merge(ds,on ='siret')
         fait_final = fait_f[
             [
                 'siret',
                 'dateDebut',
-                'dateFin',
+                'valid_to',
                 'is_current',
                 'code_commune',
                 'code_ape',

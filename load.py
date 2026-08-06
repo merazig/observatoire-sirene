@@ -112,13 +112,13 @@ def load_fait_etablissement_version(path, cur,con):
 
     result = con.sql(f"""
         SELECT siret,
-                        dateDebut,
-                        dateFin,
-                        is_current,
-                        code_commune,
-                        code_ape,
-                        tranche_effectifs,
-                        etat
+                dateDebut,
+                valid_to,
+                is_current,
+                code_commune,
+                code_ape,
+                tranche_effectifs,
+                etat
         FROM read_parquet('{path}')
     """)
 

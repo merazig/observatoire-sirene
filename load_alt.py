@@ -82,7 +82,7 @@ def load_all(cur, duckdb_rows, chunk):
             etat = etat or "?"
             code_ape = code_ape or "?"
 
-            cle = (code_ape, etat)
+            cle = (siret, code_ape, etat)
             if cle == cle_prec:
                 continue
             cle_prec = cle
@@ -187,3 +187,159 @@ def load_all(cur, duckdb_rows, chunk):
             versions,
             page_size=50000
         )
+        
+
+def load_all_project(cur, duckdb_rows):
+    
+    today = datetime.date.today()
+    date_start = datetime.date(1900, 1, 1)
+    cle_prec = None
+            
+    rows = duckdb_rows.project("""
+                       siret,
+                       code_commune,
+                       tranche_effectifs,
+                       libelle_commune,
+                       dateDebut,
+                       dateFin,
+                       etat,
+                       code_ape,
+                       nomenclature_ape
+                       """).fetchall()
+    
+
+    activite = set()
+    communes = set()
+    dates = set()
+    versions = set()
+
+    for row in rows:
+        (
+            siret,
+            code_commune,
+            code_tranche,
+            libelle_commune,
+            valid_from,
+            valid_to,
+            etat,
+            code_ape,
+            nomenclature,
+        ) = row
+
+        # filtre date
+        if (
+            not isinstance(valid_from, datetime.date)
+            or valid_from < date_start
+            or valid_from > today
+        ):
+            continue
+
+        # filtre activité
+        etat = etat or "?"
+        code_ape = code_ape or "?"
+
+        cle = (code_ape, etat)
+        if cle == cle_prec:
+            continue
+        cle_prec = cle
+
+        # dim_activite
+        nomenclature = nomenclature or "?"
+        activite.add((code_ape, nomenclature))
+
+        # dim_commune
+        if len(code_commune) != 5:
+            code_commune = "99999"
+        communes.add((code_commune, libelle_commune, code_commune[:2]))
+
+        # dim_date
+        dates.add(clean.clean_date(valid_from))
+
+        # dim_versions
+        if code_tranche not in tranches:
+            code_tranche = "NN"
+
+        is_current = valid_to is None
+        if valid_to is not None:
+            valid_to += datetime.timedelta(days=1)
+
+        versions.add(
+            (
+                siret,
+                valid_from,
+                valid_to,
+                is_current,
+                code_commune,
+                code_ape,
+                code_tranche,
+                etat,
+            )
+        )
+        
+    dates = list(dates)
+    sql = """
+                INSERT INTO dim_date (
+                    date_id, annee, trimestre, mois
+                )
+                VALUES %s
+                ON CONFLICT DO NOTHING
+            """
+    execute_values(
+                cur,
+                sql,
+                dates,
+                page_size=50000
+            )
+    communes = list(communes)
+    sql = """
+                INSERT INTO dim_commune (
+                    code_commune, libelle_commune, code_departement
+                )
+                VALUES %s
+                ON CONFLICT DO NOTHING
+            """
+                
+    execute_values(
+            cur,
+            sql,
+            communes,
+            page_size=50000
+        )
+    activite = list(activite)
+    sql = """
+                INSERT INTO dim_activite (
+                    code_ape, nomenclature
+                )
+                VALUES %s
+                ON CONFLICT DO NOTHING
+            """
+            
+    execute_values(
+        cur,
+        sql,
+        activite,
+        page_size=50000
+    )
+    
+    versions = list(versions)
+    sql = """
+            INSERT INTO fait_etablissement_version (
+                siret,
+                valid_from,
+                valid_to,
+                is_current,
+                code_commune,
+                code_ape,
+                code_tranche,
+                etat
+            )
+            VALUES %s
+            ON CONFLICT DO NOTHING
+        """
+    
+    execute_values(
+        cur,
+        sql,
+        versions,
+        page_size=50000
+    )
